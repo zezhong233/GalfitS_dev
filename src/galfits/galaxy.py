@@ -1269,7 +1269,7 @@ class Galaxy(object):
                 f_cont  = Cal_map(0., self.f_cont[key]['type'], self.f_cont[key]['paradic'])
 
             Zste    = Cal_map(0., self.Zparams[key]['type'], self.Zparams[key]['paradic'])
-            Zneb    = Cal_map(0., self.Zneb_params[key]['type'], self.Zneb_params[key]['paradic'])
+            Zneb    = Cal_map(0., self.Zneb_params[key]['type'], self.Zneb_params[key]['paradic']) # In principle, this two parameters should be passed by pardict. because sed gredient is not fully implemented yet.
             # Av      = Cal_map(0., self.Avparams[key]['type'], self.Avparams[key]['paradic'])
 
             # fixed params are passed through self. 
@@ -1961,71 +1961,7 @@ class Galaxy(object):
 
         return tot_IFU*self.rnorm
     
-    '''
-    def generate_stellar_dynamicalIFU(self,wavelength):
-        generate the SED IFU for a galaxy object
-        ------
-        wavelength: 1D array,
-            the wavelength sample
-        resolution: int
-            number of logr grid to sample SED
-        ------
-        
-        ny,nx=self.imshape
-        tot_IFU = jnp.zeros((ny,nx,len(wavelength)))
-        waveintrin = wavelength/(1.+self.redshift)
-        wave3D = jnp.tile(waveintrin, (ny, nx, 1))
-        rmap = self.r_map
-        rotation_map = Cal_map(rmap,self.rotation['type'],self.rotation['paradic'])
-        wave3D_rest = wave3D/(1.+rotation_map/C.ckm)
-        agemap = jnp.zeros((ny,nx,self.Nsub))
-        Zmap = jnp.zeros((ny,nx,self.Nsub))
-        f_contmap = jnp.zeros((ny,nx,self.Nsub))
-        Avmap = jnp.zeros((ny,nx,self.Nsub))
-        sigmamap = jnp.zeros((ny,nx,self.Nsub))
-        massmap = jnp.zeros((ny,nx,self.Nsub))
-        SFH_list = []
-        Avbumplist = []
-        count = 0
-        for key in self.subCs:
-            agemap.at[:,:,count].set(Cal_map(rmap,self.ageparams[key]['type'],self.ageparams[key]['paradic']))
-            Zmap.at[:,:,count].set(Cal_map(rmap,self.Zparams[key]['type'],self.Zparams[key]['paradic']))
-            f_contmap.at[:,:,count].set(Cal_map(rmap,self.f_cont[key]['type'],self.f_cont[key]['paradic']))
-            Avmap.at[:,:,count].set(Cal_map(rmap,self.Avparams[key]['type'],self.Avparams[key]['paradic']))
-            sigmamap.at[:,:,count].set(Cal_map(rmap,self.sigmaparams[key]['type'],self.sigmaparams[key]['paradic']))
-            massmap.at[:,:,count].set(self.mass_map[key])
-            SFH_list.append(self.SFH_list[key])
-            Avbumplist.append(self.AVbumplist[key])
-            count += 1
-        
-        # jax version   
-        @jax.jit
-        def get_component_IFU(params, _):
-            loop, IFU = params
-            def process_pixel(loopy, loopx):
-                seds_total = SEDs.get_host_SED_3D(
-                    wave3D_rest[loopy, loopx, :],
-                    massmap[loopy, loopx, loop],
-                    f_contmap[loopy, loopx, loop],
-                    agemap[loopy, loopx, loop],
-                    Zmap[loopy, loopx, loop],
-                    Avmap[loopy, loopx, loop],
-                    sigmamap[loopy, loopx, loop],
-                    1.,
-                    SFH_list[loop],
-                    self.currentage,
-                    Avbumplist[loop]
-                )
-                _, sed_obs = SEDs.sed_to_obse(waveintrin, seds_total, self.redshift, self.ebv_G)
-                return sed_obs
 
-            IFU = jax.ops.index_add(IFU, jax.ops.index[:, :, :], jax.vmap(jax.vmap(process_pixel))(jnp.arange(ny)[:, None], jnp.arange(nx)[None, :]))
-            return loop + 1, IFU
-
-        init_loop_state = (0, jnp.zeros((ny, nx, len(wavelength))))
-        _, tot_IFU = jax.lax.scan(get_component_IFU, init_loop_state, jnp.arange(self.Nsub))
-        return tot_IFU
-    '''
 
 class ISM(object):
     

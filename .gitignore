@@ -5,3 +5,7 @@ __pycache__/
 templates/
 TRASH/
 CLAUDE.md
+ai_workflow_kit/
+Examples/
+skills_old/
+.mplconfig/

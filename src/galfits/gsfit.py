@@ -402,7 +402,7 @@ class gsfitter(object):
             if model.name == name:
                 find = True
                 index = self.model_list.index(model)
-                print ("Find {0} model {1} found".format(self.mtype_list[index],name))
+                print ("Find {0} model {1}".format(self.mtype_list[index],name))
                 return model
         if not find:
             raise ValueError('Model {0} not found'.format(name))
