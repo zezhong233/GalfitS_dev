@@ -1,0 +1,164 @@
+# target: obj49140
+# config file: obj49140_0.lyric
+# fitting mode: images - photometry
+# fiting method: ES
+# chisq: 36699.87890625
+# reduced chisq: 1.2194271087646484
+# BIC: 37246.515625
+# fitting time: 0.4491609811782837 mins
+############# data summary ############## 
+# image atals: jwst
+#    image number: 0  band: nircam_f115w  chisq: [8272.124]  dof: [7547.]  reduced chisq: [1.0960811]
+#    image number: 1  band: nircam_f150w  chisq: [8217.457]  dof: [7547.]  reduced chisq: [1.0888375]
+#    image number: 2  band: nircam_f200w  chisq: [8285.996]  dof: [7547.]  reduced chisq: [1.0979192]
+#    image number: 3  band: nircam_f277w  chisq: [2361.916]  dof: [1880.]  reduced chisq: [1.2563384]
+#    image number: 4  band: nircam_f356w  chisq: [5183.9766]  dof: [1876.]  reduced chisq: [2.7633138]
+#    image number: 5  band: nircam_f410m  chisq: [2050.3962]  dof: [1876.]  reduced chisq: [1.0929618]
+#    image number: 6  band: nircam_f444w  chisq: [2328.0151]  dof: [1876.]  reduced chisq: [1.2409463]
+############ fitting summary ############ 
+# num_generations: 20000  popsize: 10 
+# free parameters:
+pname    best_value
+csx_nircam_f115w    0.4318
+csy_nircam_f115w    1.1356
+csx_nircam_f150w    0.8049
+csy_nircam_f150w    1.4102
+csx_nircam_f200w    0.5641
+csy_nircam_f200w    1.0839
+csx_nircam_f277w    0.0549
+csy_nircam_f277w    -0.4528
+csx_nircam_f356w    -0.1960
+csy_nircam_f356w    -0.4224
+csx_nircam_f410m    -0.7512
+csy_nircam_f410m    0.1902
+csx_nircam_f444w    0.0590
+csy_nircam_f444w    -0.3602
+logNorm_disk_nircam_f115w    -8.4281
+logNorm_disk_nircam_f150w    -8.4392
+logNorm_disk_nircam_f200w    -8.4661
+logNorm_disk_nircam_f277w    -9.0690
+logNorm_disk_nircam_f356w    -8.8006
+logNorm_disk_nircam_f410m    -11.0370
+logNorm_disk_nircam_f444w    -8.9325
+disk_xcen    0.1701
+disk_ycen    0.0066
+disk_Re    0.0458
+disk_n    0.3745
+disk_ang    -36.8191
+disk_axrat    0.1000
+obj1_Zneb_value    0.0040
+obj1_dust2    0.3020
+obj1_dust_ratio    1.0043
+obj1_dust_index    0.3964
+logNorm_obj1_nircam_f115w    -7.8693
+logNorm_obj1_nircam_f150w    -7.8373
+logNorm_obj1_nircam_f200w    -7.7815
+logNorm_obj1_nircam_f277w    -8.5028
+logNorm_obj1_nircam_f356w    -8.5702
+logNorm_obj1_nircam_f410m    -8.9168
+logNorm_obj1_nircam_f444w    -8.9281
+obj1_xcen    0.7672
+obj1_ycen    -0.0737
+obj1_Re    1.0197
+obj1_n    4.8374
+obj1_ang    -87.3795
+obj1_axrat    0.3494
+xcen_AGN    0.0512
+ycen_AGN    0.0271
+AGN_nircam_f115w_logL    38.0947
+AGN_nircam_f150w_logL    38.4184
+AGN_nircam_f200w_logL    38.6519
+AGN_nircam_f277w_logL    38.4935
+AGN_nircam_f356w_logL    39.1649
+AGN_nircam_f410m_logL    39.2615
+AGN_nircam_f444w_logL    39.3557
+# fixed parameters:
+# pname    fixed_value
+sky_nircam_f115w    0.0000
+sky_nircam_f150w    0.0000
+sky_nircam_f200w    0.0000
+sky_nircam_f277w    0.0000
+sky_nircam_f356w    0.0000
+sky_nircam_f410m    0.0000
+sky_nircam_f444w    0.0000
+Ni_AGN_jwst    1.0000
+disk_f_cont_bin1    -2.0000
+disk_f_cont_bin2    -2.0000
+disk_f_cont_bin3    -2.0000
+disk_f_cont_bin4    -2.0000
+disk_f_cont_bin5    -2.0000
+disk_Z_value    0.0100
+disk_Zneb_value    0.0040
+disk_dust2    0.3000
+disk_dust_ratio    1.0000
+disk_dust_index    0.4000
+disk_Av_value    0.7000
+disk_sigma    100.0000
+logM_disk    9.0000
+logU_disk    -2.0000
+AVbump_disk    3.0000
+logMdust_disk    8.1400
+Umin_disk    1.0000
+qPAH_disk    1.0000
+alphad_disk    1.0000
+gammad_disk    0.1000
+Mag_disk_nircam_f115w    27.5372
+Mag_disk_nircam_f150w    27.5650
+Mag_disk_nircam_f200w    27.6323
+Mag_disk_nircam_f277w    27.6343
+Mag_disk_nircam_f356w    26.9633
+Mag_disk_nircam_f410m    32.5543
+Mag_disk_nircam_f444w    27.2931
+obj1_f_cont_bin1    -2.0000
+obj1_f_cont_bin2    -2.0000
+obj1_f_cont_bin3    -2.0000
+obj1_f_cont_bin4    -2.0000
+obj1_f_cont_bin5    -2.0000
+obj1_Z_value    0.0100
+obj1_Av_value    0.7000
+obj1_sigma    100.0000
+logM_obj1    9.0000
+logU_obj1    -2.0000
+AVbump_obj1    3.0000
+logMdust_obj1    8.1400
+Umin_obj1    1.0000
+qPAH_obj1    1.0000
+alphad_obj1    1.0000
+gammad_obj1    0.1000
+Mag_obj1_nircam_f115w    26.1402
+Mag_obj1_nircam_f150w    26.0603
+Mag_obj1_nircam_f200w    25.9209
+Mag_obj1_nircam_f277w    26.2189
+Mag_obj1_nircam_f356w    26.3874
+Mag_obj1_nircam_f410m    27.2538
+Mag_obj1_nircam_f444w    27.2822
+agn_logMAGN    7.0000
+agn_logLeddAGN    -1.0000
+agn_spinAGN    0.0000
+agn_AvAGN    0.0000
+AGNlogL5100    42.0000
+z_AGN    6.6840
+AGNtorus_logL    41.0000
+AGNtorus_a    -0.5000
+AGNtorus_h    0.5000
+AGNtorus_N0    7.0000
+AGNtorus_i    15.0000
+AGNLhotdust    36.0000
+AGNThotdust    36.0000
+z_a    0.4000
+scale_a    5.5345
+r0_a    0.0000
+rt_a    3.0000
+v0_a    150.0000
+vc_a    0.0000
+LineSigma_a    50.0000
+z_b    0.4000
+scale_b    5.5345
+r0_b    0.0000
+rt_b    3.0000
+v0_b    150.0000
+vc_b    0.0000
+LineSigma_b    50.0000
+logsfr_disk    -0.6990
+logsfr_obj1    -0.6990
+######################################### 

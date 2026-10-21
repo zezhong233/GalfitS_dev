@@ -1,0 +1,51 @@
+# target: obj49140
+# config file: obj49140_0.lyric
+# fitting mode: images - photometry
+# fiting method: ES
+# chisq: 36699.87890625
+# reduced chisq: 1.2194271087646484
+# BIC: 37246.515625
+# fitting time: 0.4491609811782837 mins
+############# data summary ############## 
+# image atals: jwst
+#    image number: 0  band: nircam_f115w  chisq: [8272.124]  dof: [7547.]  reduced chisq: [1.0960811]
+#    image number: 1  band: nircam_f150w  chisq: [8217.457]  dof: [7547.]  reduced chisq: [1.0888375]
+#    image number: 2  band: nircam_f200w  chisq: [8285.996]  dof: [7547.]  reduced chisq: [1.0979192]
+#    image number: 3  band: nircam_f277w  chisq: [2361.916]  dof: [1880.]  reduced chisq: [1.2563384]
+#    image number: 4  band: nircam_f356w  chisq: [5183.9766]  dof: [1876.]  reduced chisq: [2.7633138]
+#    image number: 5  band: nircam_f410m  chisq: [2050.3962]  dof: [1876.]  reduced chisq: [1.0929618]
+#    image number: 6  band: nircam_f444w  chisq: [2328.0151]  dof: [1876.]  reduced chisq: [1.2409463]
+############ fitting summary ############ 
+# num_generations: 20000  popsize: 10 
+# free parameters:
+pname    best_value
+csx_nircam_f115w    -0.2992
+csy_nircam_f115w    -0.6880
+csx_nircam_f150w    0.9909
+csy_nircam_f150w    1.9981
+csx_nircam_f200w    0.9031
+csy_nircam_f200w    1.8994
+csx_nircam_f277w    0.3056
+csy_nircam_f277w    0.0499
+csx_nircam_f356w    0.1121
+csy_nircam_f356w    0.2056
+csx_nircam_f410m    -0.4030
+csy_nircam_f410m    0.9015
+csx_nircam_f444w    0.3838
+csy_nircam_f444w    0.3094
+disk_xcen    0.1701
+disk_ycen    0.0066
+disk_Re    0.0458
+disk_n    1
+disk_ang    -36.8191
+disk_axrat    0.2
+obj1_xcen    0.7672
+obj1_ycen    -0.0737
+obj1_Re    0.3
+obj1_n    4.8374
+obj1_ang    -87.3795
+obj1_axrat    0.3494
+xcen_AGN    0.0512
+ycen_AGN    0.0271
+
+
