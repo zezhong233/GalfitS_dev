@@ -1499,7 +1499,7 @@ class image(object):
             self.cut_image = imcut
             
             #x/y0shift was added for relative alignment calibration between different instruments
-            self.coordinates_transfer_para = {'x0': srcXp-minx,'x0shift':0.0, 'y0': srcYp-miny,'y0shift':0.0, 'dxra':dxra, 'dxdec':dxdec,'dyra':dyra,'dydec':dydec,'pixsc':self.pixel_scales[0].value, 'delta_ang':delta_ang}
+            self.coordinates_transfer_para = {'x0': srcXp-minx-0.5,'x0shift':0.0, 'y0': srcYp-miny-0.5,'y0shift':0.0, 'dxra':dxra, 'dxdec':dxdec,'dyra':dyra,'dydec':dydec,'pixsc':self.pixel_scales[0].value, 'delta_ang':delta_ang}
         else:
             minx = 0
             maxx = nx

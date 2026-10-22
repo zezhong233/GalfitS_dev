@@ -1416,8 +1416,8 @@ class Galaxy(object):
         ny_l, nx_l  = im.cut_image.shape[0], im.cut_image.shape[1] # local frame shape
         scale0  = group_trans_pardict["pixsc"] / im_trans_pardict["pixsc"]
         scale   = jnp.array([scale0, scale0], dtype=jnp.float32)
-        shiftx  = (im_trans_pardict['x0shift'] + im_trans_pardict['x0']) - (group_trans_pardict['x0shift'] + group_trans_pardict['x0']) * scale0 + 0.5
-        shifty  = (im_trans_pardict['y0shift'] + im_trans_pardict['y0']) - (group_trans_pardict['y0shift'] + group_trans_pardict['y0']) * scale0 + 0.5
+        shiftx  = (im_trans_pardict['x0shift'] + im_trans_pardict['x0']) - (group_trans_pardict['x0shift'] + group_trans_pardict['x0']) * scale0 
+        shifty  = (im_trans_pardict['y0shift'] + im_trans_pardict['y0']) - (group_trans_pardict['y0shift'] + group_trans_pardict['y0']) * scale0
         shift   = jnp.array([shifty, shiftx], dtype=jnp.float32)
         model_img_l     = jax.image.scale_and_translate(model_img, [ny_l, nx_l], [0,1], scale, shift, "cubic")
         model_img_l    /= scale0**2
@@ -1490,8 +1490,8 @@ class Galaxy(object):
         ny_l, nx_l  = im.cut_image.shape[0], im.cut_image.shape[1] # local frame shape
         scale0  = group_trans_pardict["pixsc"] / im_trans_pardict["pixsc"]
         scale   = jnp.array([scale0, scale0], dtype=jnp.float32)
-        shiftx  = (im_trans_pardict['x0shift'] + im_trans_pardict['x0']) - (group_trans_pardict['x0shift'] + group_trans_pardict['x0']) * scale0 + 0.5
-        shifty  = (im_trans_pardict['y0shift'] + im_trans_pardict['y0']) - (group_trans_pardict['y0shift'] + group_trans_pardict['y0']) * scale0 + 0.5
+        shiftx  = (im_trans_pardict['x0shift'] + im_trans_pardict['x0']) - (group_trans_pardict['x0shift'] + group_trans_pardict['x0']) * scale0
+        shifty  = (im_trans_pardict['y0shift'] + im_trans_pardict['y0']) - (group_trans_pardict['y0shift'] + group_trans_pardict['y0']) * scale0
         shift   = jnp.array([shifty, shiftx], dtype=jnp.float32)
         model_img_l     = jax.image.scale_and_translate(model_img, [ny_l, nx_l], [0,1], scale, shift, "cubic")
         model_img_l    /= scale0**2

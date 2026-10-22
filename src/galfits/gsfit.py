@@ -3384,8 +3384,8 @@ class imagefitter_phot(gsfitter):
                 nyl,nxl = im.cut_image.shape
                 scale0 = GSdata.coordinates_transfer_paras[loop_group]['pixsc']/im.coordinates_transfer_para['pixsc']
                 scale = jnp.array([scale0,scale0], dtype=jnp.float32)
-                shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0+0.5
-                shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0+0.5
+                shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0
+                shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0
                 trans = jnp.array([shifty,shiftx], dtype=jnp.float32)
                 imm = jax.image.scale_and_translate(imm0,(nyl,nxl),(0,1),scale,trans,'cubic')
                 imm /= scale0**2
@@ -3431,8 +3431,8 @@ class imagefitter_phot(gsfitter):
                 nyl,nxl = im.cut_image.shape
                 scale0 = GSdata.coordinates_transfer_paras[loop_group]['pixsc']/im.coordinates_transfer_para['pixsc']
                 scale = jnp.array([scale0,scale0], dtype=jnp.float32)
-                shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0+0.5
-                shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0+0.5 # in im frame。 imm0's orign point is the leftest corner of image.
+                shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0
+                shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0 # in im frame。 imm0's orign point is the leftest corner of image.
                 trans = jnp.array([shifty,shiftx], dtype=jnp.float32)
                 imm = jax.image.scale_and_translate(imm0,(nyl,nxl),(0,1),scale,trans,'cubic') # col'+0.5 = (col+0.5) * scale + trans, so trans = col'+0.5-scale * (col+0.5）
                 imm /= scale0**2
@@ -3506,8 +3506,8 @@ class imagefitter_SED_allconst(gsfitter):
                     nyl,nxl = im.cut_image.shape
                     scale0 = GSdata.coordinates_transfer_paras[loop_group]['pixsc']/im.coordinates_transfer_para['pixsc']
                     scale = jnp.array([scale0,scale0], dtype=jnp.float32)
-                    shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0+0.5
-                    shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0+0.5
+                    shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0
+                    shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0
                     trans = jnp.array([shifty,shiftx], dtype=jnp.float32)
                     imm = jax.image.scale_and_translate(imm0,(nyl,nxl),(0,1),scale,trans,'cubic')
                     imm /= scale0**2
@@ -3576,8 +3576,8 @@ class imagefitter_SED_allconst(gsfitter):
                     nyl,nxl = im.cut_image.shape
                     scale0 = GSdata.coordinates_transfer_paras[loop_group]['pixsc']/im.coordinates_transfer_para['pixsc']
                     scale = jnp.array([scale0,scale0], dtype=jnp.float32)
-                    shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0+0.5
-                    shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0+0.5
+                    shiftx = im.coordinates_transfer_para['x0shift']+im.coordinates_transfer_para['x0']-(GSdata.coordinates_transfer_paras[loop_group]['x0shift']+GSdata.coordinates_transfer_paras[loop_group]['x0'])*scale0
+                    shifty = im.coordinates_transfer_para['y0shift']+im.coordinates_transfer_para['y0']-(GSdata.coordinates_transfer_paras[loop_group]['y0shift']+GSdata.coordinates_transfer_paras[loop_group]['y0'])*scale0
                     trans = jnp.array([shifty,shiftx], dtype=jnp.float32)
                     imm = jax.image.scale_and_translate(imm0,(nyl,nxl),(0,1),scale,trans,'cubic')
                     imm /= scale0**2

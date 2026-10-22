@@ -886,16 +886,16 @@ def GaussianRing_fourier(x,y,imnx,imny,axrat,PA,r0,Sig,L,r_in, r_out, alpha_rc, 
 
 def add_PSF(x,y,imnx,imny,psfimage,scalefactor=1.):
     ny0,nx0=psfimage.shape
-    shiftx = x-0.5*nx0*scalefactor+0.5
-    shifty = y-0.5*ny0*scalefactor+0.5
+    shiftx = x-0.5*nx0*scalefactor
+    shifty = y-0.5*ny0*scalefactor
     scale = jnp.array([scalefactor,scalefactor], dtype=jnp.float32)
     trans = jnp.array([shifty,shiftx], dtype=jnp.float32)
     return jax.image.scale_and_translate(psfimage,(imny,imnx),(0,1),scale,trans,'cubic')/(scalefactor**2)
 
 def add_PSF_2D(x, y, imnx, imny, psfimage_slice, scalefactor):
     ny0, nx0 = psfimage_slice.shape
-    shiftx = x - 0.5 * nx0 * scalefactor + 0.5
-    shifty = y - 0.5 * ny0 * scalefactor + 0.5
+    shiftx = x - 0.5 * nx0 * scalefactor
+    shifty = y - 0.5 * ny0 * scalefactor
     scale = jnp.array([scalefactor, scalefactor], dtype=jnp.float32)
     trans = jnp.array([shifty, shiftx], dtype=jnp.float32)
     return jax.image.scale_and_translate(psfimage_slice, (imny, imnx), (0, 1), scale, trans, 'cubic')/ (scalefactor**2)

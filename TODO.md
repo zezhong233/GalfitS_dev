@@ -7,6 +7,7 @@
     - [ ] fix that also for <class AGN>. 
 - [ ] the Extinction part of <class AGN> -> `fiducial_sed()`. 
 - [ ] <class star> should be aligned with Galaxy and AGN.
+- [ ] Fix the jax +- 0.5 pixel offset. 
 
 
 ## 2. optimization points.
