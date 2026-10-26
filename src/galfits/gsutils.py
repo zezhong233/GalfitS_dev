@@ -522,7 +522,7 @@ def _z_to_agebin_rescale(z_fit, n_agebin=7, manual_agelist=None):
     age bin: lookback time bins with Tzp is local univ t.
     '''
     z_max   = 15 # time for star formation start
-    a_min1, a_min2  = 0.01, 0.1
+    a_min1, a_min2  = 0.03, 0.1
     if manual_agelist is not None:
         t_cur   = cosmo.lookback_time(z_fit).to(u.Gyr).value
         age_bin     = manual_agelist + t_cur
@@ -2896,13 +2896,13 @@ def z_to_agebin(z_fit, n_agebin=7):
     '''
     Follow prospector beta method to generate age bin
     '''
-    amin1, amin2    = 0.03, 0.10
-    zmax    = 1000 # start time for star formation
-    t_mmax  = cosmo.age(zmax).value
-    t_univ  = float(cosmo.age(z_fit).value - t_mmax)
+    amin1, amin2    = 0.03, 0.10 # Gyr
+    t_univ  = float(cosmo.age(z_fit).value)
     tbin_max    = 0.9 * t_univ
     if z_fit <= 3.:
         age_bin     = [0, amin1] + np.logspace(np.log10(amin2), np.log10(tbin_max), n_agebin-2).tolist() + [t_univ] 
     else:
-        age_bin     = [0, 0.01347] + np.logspace(np.log10(0.01347), np.log10(tbin_max), n_agebin-1).tolist()[1:] + [t_univ]
+        # age_bin     = [0, 0.01347] + np.logspace(np.log10(0.01347), np.log10(tbin_max), n_agebin-1).tolist()[1:] + [t_univ]
+        age_bin     = np.logspace(np.log10(amin1), np.log10(tbin_max), n_agebin).tolist() + [t_univ]
+        age_bin[0]  = 0
     return age_bin

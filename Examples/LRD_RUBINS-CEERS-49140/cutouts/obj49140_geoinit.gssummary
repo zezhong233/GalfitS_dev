@@ -19,24 +19,10 @@
 # num_generations: 20000  popsize: 10 
 # free parameters:
 pname    best_value
-csx_nircam_f115w    -0.2992
-csy_nircam_f115w    -0.6880
-csx_nircam_f150w    0.9909
-csy_nircam_f150w    1.9981
-csx_nircam_f200w    0.9031
-csy_nircam_f200w    1.8994
-csx_nircam_f277w    0.3056
-csy_nircam_f277w    0.0499
-csx_nircam_f356w    0.1121
-csy_nircam_f356w    0.2056
-csx_nircam_f410m    -0.4030
-csy_nircam_f410m    0.9015
-csx_nircam_f444w    0.3838
-csy_nircam_f444w    0.3094
 disk_xcen    0.1701
 disk_ycen    0.0066
 disk_Re    0.0458
-disk_n    1
+disk_n    0.68
 disk_ang    -36.8191
 disk_axrat    0.2
 obj1_xcen    0.7672

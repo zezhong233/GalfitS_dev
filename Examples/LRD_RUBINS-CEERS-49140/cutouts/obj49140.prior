@@ -1,3 +1,4 @@
 SFH_Ta1) disk
 SFH_Ta2) cosmic
-GP) ['disk_dust2', 'disk_dust_ratio', 'disk_dust2']
+
+GP) ['disk_dust2', 'disk_dust_ratio', 'disk_dust_index']

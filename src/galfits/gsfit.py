@@ -257,22 +257,6 @@ class gsfitter(object):
         else:
             self.ndim = 0
 
-        ## used for cosmic sfr calculation.
-        self.np_agedict     = {} ## agelist of profiles with non-parametric SFH setting
-        self.np_z_logMidx_dict  = {} ## profile redshift `value` and logM `index` in varname
-        if f_tprior_info is not None:
-            for gal_model in self.gmodel_list:
-                SFH_type_dict   = gal_model.SFH_list
-                p_keys    = SFH_type_dict.keys()
-                for p_key in p_keys:
-                    if SFH_type_dict[p_key] == "bins":
-                        logM_n  = f"logM_{p_key}"
-                        logM_i  = self.varnames.index(logM_n) ## TODO: I will fix the bug if logM is not variable.
-                        zred    = gal_model.redshift
-                        np_age  = gal_model.npSFH_times[p_key]
-                        self.np_agedict[p_key]  = np_age
-                        self.np_z_logMidx_dict[p_key]   = [logM_i, zred]
-
         self.UC_func = None
         self.fitresult = None
         self.mcmc_samples = None
@@ -327,11 +311,32 @@ class gsfitter(object):
             self.ftp_scale  = []
             self.ftp_df     = []
             self.ftp_adj_pairs  = []
-            self.csfr_interp_dict = {}
+            self.np_agedict     = {} ## agelist of profiles with non-parametric SFH setting
+            self.csfr_interp_dict   = {}
+            self.np_z_logMidx_dict  = {} ## profile redshift `value` and logM `index` in varname
+
             return
         
         self.use_f_cont_t_prior = True
         ftp_name_list, ftp_type_list, ftp_scale, ftp_df   = f_tprior_info
+
+
+        ## used for cosmic sfr calculation.
+        self.np_agedict     = {} ## agelist of profiles with non-parametric SFH setting
+        self.np_z_logMidx_dict  = {} ## profile redshift `value` and logM `index` in varname
+
+        for gal_model in self.gmodel_list:
+            SFH_types   = gal_model.SFH_list
+            p_names     = gal_model.subnames # profile names
+            zred        = gal_model.redshift
+
+            for p_name in p_names: # for every profile.
+                if p_name in ftp_name_list: # if this profile uses cosmic sfh prior.
+                    assert SFH_types[p_name]=="bins", "cosmic sfh prior is only suitable for Non-parametric SFH type: bins."
+                    logM_i      = self.varnames.index(f"logM_{p_name}") 
+                    np_agelist  = gal_model.npSFH_times[p_name] # non_parametric sfh age_list.
+                    self.np_agedict[p_name]  = np_agelist       # age list for this profile.
+                    self.np_z_logMidx_dict[p_name]   = [logM_i, zred] # for update_ftp_params based on logM and zred in this loop.
 
         ftp_adj_pairs   = []
         for ftpname, ftptype in zip(ftp_name_list, ftp_type_list):
