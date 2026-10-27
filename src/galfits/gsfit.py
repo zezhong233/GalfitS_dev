@@ -311,9 +311,9 @@ class gsfitter(object):
             self.ftp_scale  = []
             self.ftp_df     = []
             self.ftp_adj_pairs  = []
-            self.np_agedict     = {} ## agelist of profiles with non-parametric SFH setting
+            self.np_agedict     = {}
             self.csfr_interp_dict   = {}
-            self.np_z_logMidx_dict  = {} ## profile redshift `value` and logM `index` in varname
+            self.np_z_logMidx_dict  = {}
 
             return
         
@@ -323,7 +323,7 @@ class gsfitter(object):
 
         ## used for cosmic sfr calculation.
         self.np_agedict     = {} ## agelist of profiles with non-parametric SFH setting
-        self.np_z_logMidx_dict  = {} ## profile redshift `value` and logM `index` in varname
+        self.np_z_logMidx_dict  = {} ## profile redshift `value` and logM `index` in self.varname
 
         for gal_model in self.gmodel_list:
             SFH_types   = gal_model.SFH_list
@@ -374,23 +374,25 @@ class gsfitter(object):
             ftp_type    = self.ftp_type_list[loop_p]
 
             logM_i, zred    = self.np_z_logMidx_dict[p_key]
-            age_list    = jnp.array(self.np_agedict[p_key])
+            age_list        = jnp.array(self.np_agedict[p_key])
             age_bin_list    = age_list[1:] - age_list[:-1]
             logM    = theta[logM_i]
 
-            if ftp_type == 'cosmic':
+            if ftp_type == 'cosmic': # cosmic sfhd 
                 # f_cont_tp_means = gsutils._generate_cosmic_sfh_prior(zred, age_list, logM)
                 sfr_means     = self.csfr_interp_dict[len(age_list)-1]((zred, logM))
-                f_cont_tp_means     = age_bin_list * sfr_means 
-                f_cont_tp_means    /= jnp.sum(f_cont_tp_means) # normalized to 1
-                f_cont_tp_means     = jnp.log10(f_cont_tp_means)# in logscale 
-
-
-            elif ftp_type == "flat":
-                f_cont_tp_means     = jnp.zeros(len(age_list)-1)
-
+            elif ftp_type == "flat": # constant sfh 
+                sfr_means     = jnp.ones(len(age_list)-1) 
             else:
                 raise ValueError("Don't support this prior.")
+            
+            f_cont_tp_means     = age_bin_list * sfr_means 
+            f_cont_tp_means    /= jnp.sum(f_cont_tp_means) # normalized to 1
+            f_cont_tp_means     = jnp.log10(f_cont_tp_means)# in logscale 
+
+
+
+
                 
             delta_f_cont_tp_means = f_cont_tp_means[1:] - f_cont_tp_means[:-1]
 
