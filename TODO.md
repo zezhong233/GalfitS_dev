@@ -6,6 +6,8 @@
 - [v]  `generate_image` & `generate_subcomponent_image` of <class Galaxy>.
     - [ ] fix that also for <class AGN>. 
 - [v] Fix the jax +- 0.5 pixel offset. 
+- [ ] Update `gsfit.py` -> <class gsfitter> -> loose_fix_pars().
+    - understand what is the use of this function, except update params, especially the `gprior`... 'fpt_prior` should be update too. 
 - [ ] find ghost point source bug. 
 - [ ] change the params index format.
 - [ ] the Extinction part of <class AGN> -> `fiducial_sed()`. 

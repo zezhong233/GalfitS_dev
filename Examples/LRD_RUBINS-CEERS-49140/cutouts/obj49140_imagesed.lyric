@@ -6,12 +6,12 @@ R2) [214.89225,52.87740]
 R3)6.684
 
 # input images for F115W band
-Ia1) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f115w.fits,0]
+Ia1) [f115w.fits,0]
 Ia2) nircam_f115w
-Ia3) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f115w_err.fits,0]
-Ia4) [/csst-storage/zhongyi/JWST/CEERS/Ready_Data/Pointing_5/PSF/F115W_hybrid.fits,0]
+Ia3) [f115w_err.fits,0]
+Ia4) [PSF/F115W_hybrid.fits,0]
 Ia5) 1
-Ia6) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f115w_mask.fits,0]
+Ia6) [f115w_mask.fits,0]
 Ia7) MJy/sr
 Ia8) 1.02 
 Ia9) 4.7269130454760666e+20 
@@ -23,12 +23,12 @@ Ia14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]]
 Ia15) 1
 
 # input images for F150W band
-Ib1) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f150w.fits,0]
+Ib1) [f150w.fits,0]
 Ib2) nircam_f150w
-Ib3) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f150w_err.fits,0]
-Ib4) [/csst-storage/zhongyi/JWST/CEERS/Ready_Data/Pointing_5/PSF/F150W_hybrid.fits,0]
+Ib3) [f150w_err.fits,0]
+Ib4) [PSF/F150W_hybrid.fits,0]
 Ib5) 1
-Ib6) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f150w_mask.fits,0]
+Ib6) [f150w_mask.fits,0]
 Ib7) MJy/sr
 Ib8) 1.02 
 Ib9) 7.990662735207445e+20 
@@ -40,12 +40,12 @@ Ib14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]]
 Ib15) 1
 
 # input images for F200W band
-Ic1) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f200w.fits,0]
+Ic1) [f200w.fits,0]
 Ic2) nircam_f200w
-Ic3) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f200w_err.fits,0]
-Ic4) [/csst-storage/zhongyi/JWST/CEERS/Ready_Data/Pointing_5/PSF/F200W_hybrid.fits,0]
+Ic3) [f200w_err.fits,0]
+Ic4) [PSF/F200W_hybrid.fits,0]
 Ic5) 1
-Ic6) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f200w_mask.fits,0]
+Ic6) [f200w_mask.fits,0]
 Ic7) MJy/sr
 Ic8) 1.02 
 Ic9) 1.403089597372815e+21 
@@ -57,12 +57,12 @@ Ic14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]]
 Ic15) 1
 
 # input images for F277W band
-Id1) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f277w.fits,0]
+Id1) [f277w.fits,0]
 Id2) nircam_f277w
-Id3) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f277w_err.fits,0]
-Id4) [/csst-storage/zhongyi/JWST/CEERS/Ready_Data/Pointing_5/PSF/F277W_hybrid.fits,0]
+Id3) [f277w_err.fits,0]
+Id4) [PSF/F277W_hybrid.fits,0]
 Id5) 1
-Id6) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f277w_mask.fits,0]
+Id6) [f277w_mask.fits,0]
 Id7) MJy/sr
 Id8) 1.02 
 Id9) 6.765114604395543e+20 
@@ -74,12 +74,12 @@ Id14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]]
 Id15) 1
 
 # input images for F356W band
-Ie1) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f356w.fits,0]
+Ie1) [f356w.fits,0]
 Ie2) nircam_f356w
-Ie3) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f356w_err.fits,0]
-Ie4) [/csst-storage/zhongyi/JWST/CEERS/Ready_Data/Pointing_5/PSF/F356W_hybrid.fits,0]
+Ie3) [f356w_err.fits,0]
+Ie4) [PSF/F356W_hybrid.fits,0]
 Ie5) 1
-Ie6) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f356w_mask.fits,0]
+Ie6) [f356w_mask.fits,0]
 Ie7) MJy/sr
 Ie8) 1.02 
 Ie9) 1.1293989758717692e+21 
@@ -91,12 +91,12 @@ Ie14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]]
 Ie15) 1
 
 # input images for F410M band
-If1) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f410m.fits,0]
+If1) [f410m.fits,0]
 If2) nircam_f410m
-If3) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f410m_err.fits,0]
-If4) [/csst-storage/zhongyi/JWST/CEERS/Ready_Data/Pointing_5/PSF/F410M_hybrid.fits,0]
+If3) [f410m_err.fits,0]
+If4) [PSF/F410M_hybrid.fits,0]
 If5) 1
-If6) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f410m_mask.fits,0]
+If6) [f410m_mask.fits,0]
 If7) MJy/sr
 If8) 1.02 
 If9) 1.4781081786026253e+21 
@@ -108,12 +108,12 @@ If14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]]
 If15) 1
 
 # input images for F444W band
-Ig1) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f444w.fits,0]
+Ig1) [f444w.fits,0]
 Ig2) nircam_f444w
-Ig3) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f444w_err.fits,0]
-Ig4) [/csst-storage/zhongyi/JWST/CEERS/Ready_Data/Pointing_5/PSF/F444W_hybrid.fits,0]
+Ig3) [f444w_err.fits,0]
+Ig4) [PSF/F444W_hybrid.fits,0]
 Ig5) 1
-Ig6) [/home/zhongyi/LRDs/LRDs_CEERS/cutout/49140/f444w_mask.fits,0]
+Ig6) [f444w_mask.fits,0]
 Ig7) MJy/sr
 Ig8) 1.02 
 Ig9) 1.7205461369385535e+21 

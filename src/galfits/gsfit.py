@@ -384,17 +384,13 @@ class gsfitter(object):
             elif ftp_type == "flat": # constant sfh 
                 sfr_means     = jnp.ones(len(age_list)-1) 
             else:
-                raise ValueError("Don't support this prior.")
+                raise ValueError(f"Don't support this prior.{ftp_type}, check the spelling,")
             
             f_cont_tp_means     = age_bin_list * sfr_means 
             f_cont_tp_means    /= jnp.sum(f_cont_tp_means) # normalized to 1
             f_cont_tp_means     = jnp.log10(f_cont_tp_means)# in logscale 
-
-
-
-
                 
-            delta_f_cont_tp_means = f_cont_tp_means[1:] - f_cont_tp_means[:-1]
+            delta_f_cont_tp_means   = f_cont_tp_means[1:] - f_cont_tp_means[:-1]
 
             for delta_mean in delta_f_cont_tp_means:
                 ftp_adj_params.append([delta_mean, self.ftp_scale, self.ftp_df])
@@ -415,7 +411,7 @@ class gsfitter(object):
             raise ValueError('Model {0} not found'.format(name))
         return None
 
-    def loose_fix_pars(self, loose_list = [], fix_list = [], g_prior = []):
+    def loose_fix_pars(self, loose_list = [], fix_list = [], g_prior = []): # TODO: we should understand here more..., update sfh prior too.
         # gprior: [[parname, mean, sigma],...]
         theta0 = []
         bounds = []
@@ -425,13 +421,13 @@ class gsfitter(object):
             self.lmParameters[el].vary = True
         for el in fix_list:
             self.lmParameters[el].vary = False
-        self.pardict = self.lmParameters.valuesdict()
+        self.pardict = self.lmParameters.valuesdict() # update pardict 
         for el in self.pardict:
             if self.lmParameters[el].expr is not None:
                 self.lmParameters[el].vary = False
             if self.lmParameters[el].vary:
                 theta0.append(self.pardict[el])
-                self.varnames.append(el)
+                self.varnames.append(el) # update varnames
                 lb, ub = self.lmParameters[el].min, self.lmParameters[el].max
                 bounds.append(jnp.array([lb, ub]))
                 gbounds.append(jnp.array([0., 1.]))
