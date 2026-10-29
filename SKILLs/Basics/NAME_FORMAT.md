@@ -1,4 +1,4 @@
-# GalfitS Parameter Naming Format
+# GalfitS Parameter Naming Format (need to be checked again by MAN!)
 
 > Hand-written. How internal parameter names (`lmParameters` / `pardict`
 > keys) are built from config names. Verified against

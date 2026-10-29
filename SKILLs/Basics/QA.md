@@ -6,4 +6,4 @@
 CUDA_VISIBLE_DEVICES=1 galfits objxx.lyric --workplace wp --fit_method optimizer
 ```
 
-# 
+#### Q2: 

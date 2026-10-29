@@ -39,8 +39,8 @@ Parser mapping verified at `gsutils.py:952`
 | Key | Definition |
 |---|---|
 | `Ix1)` | Science image: `[fits_path, extension]`. |
-| `Ix2)` | Band / filter name (string, e.g. `f200w`). |
-| `Ix3)` | Sigma (1σ error) image: `[fits_path, extension]`. |
+| `Ix2)` | Band / filter name. Name format see `effective_wave` in gsutils.py. e.g. `nircam_f115w` |
+| `Ix3)` | Sigma (1σ error) image: `[fits_path, extension, scale]`. `scale` is a arbitary scale factor for whole sigma image. default `1` if not argued.|
 | `Ix4)` | PSF image: `[fits_path, extension]`. |
 | `Ix5)` | PSF fine-sampling (oversampling) factor relative to the data. |
 | `Ix6)` | Mask image: `[fits_path, extension]`; `[Noimg,0]` = no mask. |
