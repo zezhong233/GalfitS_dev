@@ -122,7 +122,7 @@ def main(argv=None):
                 os.mkdir(workplace)
                 print ("workplace path not found! create it!")
 
-        Myfitter,targ,fs = gsutils.read_config_file(config_file_path,workplace,priorpath=args.priorpath,fixagnlinepro = args.fixagnlinepro,vectorize = not args.nvectorize, silent=True)
+        Myfitter,targ,fs = gsutils.read_config_file(config_file_path,workplace,priorpath=args.priorpath,fixagnlinepro = args.fixagnlinepro,vectorize = not args.nvectorize, silent=True, bayesian=args.baysian)
 
         log_path = os.path.join(workplace, f"{targ}.galfitS.log")
         log_ctx = _tee_stdout_stderr(log_path) if args.savelog else nullcontext()
@@ -244,6 +244,33 @@ def main(argv=None):
                                         f.write('### Magnitude can be found in fixed parameters.\n')
                                         f.write('### Magnitude error can be calculated by 2.5 times the logM error.\n')
                                 f.write('# fiting method: {0}\n'.format(args.fit_method))
+                                # record the full run command so the setup is traceable
+                                run_argv = sys.argv[1:] if argv is None else [str(a) for a in argv]
+                                f.write('# command line: {0} {1}\n'.format(os.path.basename(sys.argv[0]), ' '.join(run_argv)))
+                                f.write('# input options:\n')
+                                # save full command. 
+                                n_input = 0
+                                ## store params_container pathes.
+                                for argue in ['readsummary', 'readpar', 'parconstrain', 'priorpath']:
+                                        val = getattr(args, argue)
+                                        if val is not None and val != 'default':
+                                                f.write('#   {0}: {1}\n'.format(argue, val))
+                                                n_input += 1
+								## store other argue setting if value is not default one.
+                                default_vals = vars(parse_args([]))
+                                skip_args = ['config', 'config_option', 'workplace', 'fit_method',
+                                         'readsummary', 'readpar', 'parconstrain', 'priorpath']
+                                other_args = []
+                                for argue, val in vars(args).items():
+                                        if argue in skip_args:
+                                                continue
+                                        if argue in default_vals and val != default_vals[argue]:
+                                                other_args.append('{0}={1}'.format(argue, val))
+                                if other_args:
+                                        f.write('#   non-default options: {0}\n'.format(', '.join(other_args)))
+                                        n_input += 1
+                                if n_input == 0:
+                                        f.write('#   (all other options at default)\n')
                                 f.write('# chisq: {0}\n'.format(Myfitter.chisq))
                                 f.write('# reduced chisq: {0}\n'.format(Myfitter.chisq/Myfitter.dof))
                                 f.write('# BIC: {0}\n'.format(Myfitter.BIC))
@@ -276,6 +303,10 @@ def main(argv=None):
                                             args.maxiters, args.nlive, args.dlogz, args.bound, args.rwalk_K, args.target_acceptance, args.device, args.queue_size))
                                         if args.dynamic:
                                                 f.write('# dynamic: True  maxbatch: {0}\n'.format(args.maxbatch))
+                                if isinstance(fr, dict) and (fr.get('fitness', None) is not None):
+                                        f.write('# best fitness: {0}\n'.format(fr['fitness']))
+                                        f.write('# (fitness = objective minimized by ES = 0.5*chisq + prior penalties at the best solution;\n')
+                                        f.write('#  the "# chisq" above is sum(r^2) without the 0.5 factor and without prior terms)\n')
 
                                 haveerror = (isinstance(fr, dict) and (fr.get('param_errors', None) is not None))
                                 f.write('# free parameters:\n')
