@@ -631,7 +631,7 @@ def _generate_cosmic_sfh_prior(gal_z, age_list, logM, Cosmic_SFR_prior_path=None
 
     return logf_cont_list
 
-def read_config_file(config, workplace, targname = None, priorpath = None, fixagnlinepro = False, dataonly = False, vectorize = True, silent=False):
+def read_config_file(config, workplace, targname = None, priorpath = None, fixagnlinepro = False, dataonly = False, vectorize = True, silent=False, bayesian=False):
     """
     Load GalfitS configuration file and initialize fitting setup.
     
@@ -1846,6 +1846,7 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
     #   constraint: (theta[j] - theta[i]) ~ StudentT(center, scale, df)
 
     try:
+        print(f"Using ftp prior for non-parametric SFH fitting.")
         pname_list, ftype_list  = [], []
         for sfh_tp in sfh_tp_label:
             pname_list.append(pfile[f"SFH_T{sfh_tp}1)"])
@@ -1856,8 +1857,6 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
             f_tprior_info   = None
         else:
             f_tprior_info    = (pname_list, ftype_list, scale, df)
-
-
     except Exception as e:
         f_tprior_info   = None
         print(f"=="*10)
@@ -1866,11 +1865,14 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
 
     # Gaussian priors
     try:
+        print(f"Using Gaussian priors.")
         GP_list = pfile['GP)']
         for gpname in GP_list:
             value = par_total[gpname].value
             std = par_total[gpname].brute_step
             gprior.append([gpname, value, std])
+        if not bayesian:
+            print("WARNIGN!, `--arg.baysian` is not argued.")
     except:
         print ("No additional Gaussian priors")
 
@@ -1903,12 +1905,13 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
 
     # Energy balances
     energy_balance = []
-    try:
-        EB_list = pfile['EB)']
-        for ebname in EB_list:
-            energy_balance.append(ebname)
-    except:
-        print ("No energy balances assigned")
+    print(f"Energy balances assigned default for Every galaxy now.")
+    # try:
+    #     EB_list = pfile['EB)']
+    #     for ebname in EB_list:
+    #         energy_balance.append(ebname)
+    # except:
+    #     print ("")
 
 
     # define galaxy model
@@ -1948,7 +1951,7 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
             par_total.add('v0_{0}'.format(ganames[-1]),30,min=150,max=300,brute_step=1.,vary=False)
             par_total.add('vc_{0}'.format(ganames[-1]),0,min=-100,max=100,brute_step=1.,vary=False)
             par_total.add('LineSigma_{0}'.format(ganames[-1]),50,min=10.,max=300.,brute_step=1.,vary=False)
-        if (len(Spectra) == 0)&(not grismfit): ## image + sed fit.
+        if (len(Spectra) == 0)&(not grismfit): ## image + sed fit.,
             magal.make_nebular(None, lines_narrow=[], withline = True)
         elif grismfit:
             par_nebu = magal.make_nebular(None,lines_narrow, nnarrow = config_dict[gakey + '7)'],withline = False, D3=True)
