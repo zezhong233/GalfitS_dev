@@ -977,7 +977,7 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
     if len(filter_wave) > 0:
         combined_wave = jnp.concatenate(filter_wave)
         sortwave    = np.sort(np.asarray(combined_wave))
-          ## # im.resp 还没改呢 (N x 300 for jwst nircam filter.) ## inreasonable, too sparse to sample well.
+          ## TODO:im.resp 还没改呢 (N x 300 for jwst nircam filter.) ## inreasonable, too sparse to sample well.
     else:
         sortwave = None
     for im in Imagelist:
@@ -985,7 +985,7 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
             sedmode = True
         else:    
             sedmode = False
-            break #???
+            break # Only all im are sed points then sedmode is TRUE.
 
 
 
@@ -1476,7 +1476,7 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
         par_total.add('{0}torus_i'.format(Nunames[-1]),config_dict[nuke_key + '25)'][0],min=config_dict[nuke_key + '25)'][1],max=config_dict[nuke_key + '25)'][2],brute_step=config_dict[nuke_key + '25)'][3],vary=bool(config_dict[nuke_key + '25)'][4]))
         if (nuke_key + '27)') in config_dict:
             myagn.hotdust = True
-            print ("host dust is added to the model")
+            # print ("host dust is added to the model")
             par_total.add('{0}Lhotdust'.format(Nunames[-1]),config_dict[nuke_key + '27)'][0][0],min=config_dict[nuke_key + '27)'][0][1],max=config_dict[nuke_key + '27)'][0][2],brute_step=config_dict[nuke_key + '27)'][0][3],vary=bool(config_dict[nuke_key + '27)'][0][4]))
             par_total.add('{0}Thotdust'.format(Nunames[-1]),config_dict[nuke_key + '27)'][1][0],min=config_dict[nuke_key + '27)'][1][1],max=config_dict[nuke_key + '27)'][1][2],brute_step=config_dict[nuke_key + '27)'][1][3],vary=bool(config_dict[nuke_key + '27)'][1][4]))
         lines_broad = []
@@ -1846,7 +1846,6 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
     #   constraint: (theta[j] - theta[i]) ~ StudentT(center, scale, df)
 
     try:
-        print(f"Using ftp prior for non-parametric SFH fitting.")
         pname_list, ftype_list  = [], []
         for sfh_tp in sfh_tp_label:
             pname_list.append(pfile[f"SFH_T{sfh_tp}1)"])
@@ -1857,6 +1856,7 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
             f_tprior_info   = None
         else:
             f_tprior_info    = (pname_list, ftype_list, scale, df)
+            print(f"Using ftp prior for non-parametric SFH fitting.")
     except Exception as e:
         f_tprior_info   = None
         print(f"=="*10)
@@ -1865,12 +1865,12 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
 
     # Gaussian priors
     try:
-        print(f"Using Gaussian priors.")
         GP_list = pfile['GP)']
         for gpname in GP_list:
             value = par_total[gpname].value
             std = par_total[gpname].brute_step
             gprior.append([gpname, value, std])
+        print(f"Using Gaussian priors.")
         if not bayesian:
             print("WARNIGN!, `--arg.baysian` is not argued.")
     except:
@@ -1904,8 +1904,10 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
         print ("[FIX] module encountered an error: {0}".format(exc))
 
     # Energy balances
+
     energy_balance = []
-    print(f"Energy balances assigned default for Every galaxy now.")
+    if not allnotSED:
+        print(f"Energy balances are assigned by default for every galaxy if and dust emission is used.")
     # try:
     #     EB_list = pfile['EB)']
     #     for ebname in EB_list:
@@ -2048,7 +2050,7 @@ def read_config_file(config, workplace, targname = None, priorpath = None, fixag
 
     print(f"=="*10)
     print(f"workplace is {workplace}")
-    print(f"targname is {targname}")
+    print(f"targname  is {targname}")
     workplace   = str(workplace)
     f = open(workplace + '/{0}.constrain'.format(targname), 'w')
     print(function_string, file=f)

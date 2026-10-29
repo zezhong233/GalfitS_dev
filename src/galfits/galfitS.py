@@ -235,19 +235,22 @@ def main(argv=None):
                                         }
                                         pickle.dump(result,open(workplace + '/{0}.gsresu'.format(targ),"wb"))
 
+
+
                                 # write summary file
                                 f = open(workplace + '/{0}.gssummary'.format(targ),'w')
-                                f.write('# target: {0}\n'.format(targ))
-                                f.write('# config file: {0}\n'.format(config_file_path))
-                                f.write('# fitting mode: {0}\n'.format(Myfitter.GSdata.fitMode))
+                                # record the full run command so the setup is traceable
+                                run_argv = sys.argv[1:] if argv is None else [str(a) for a in argv]
+                                f.write('# command line  : {0} {1}\n'.format(os.path.basename(sys.argv[0]), ' '.join(run_argv)))
+                                f.write('# target        : {0}\n'.format(targ))
+                                f.write('# config file   : {0}\n'.format(config_file_path))
+                                f.write('# fitting mode  : {0}\n'.format(Myfitter.GSdata.fitMode))
                                 if Myfitter.GSdata.fitMode == "single image - photometry":
                                         f.write('### Magnitude can be found in fixed parameters.\n')
                                         f.write('### Magnitude error can be calculated by 2.5 times the logM error.\n')
-                                f.write('# fiting method: {0}\n'.format(args.fit_method))
-                                # record the full run command so the setup is traceable
-                                run_argv = sys.argv[1:] if argv is None else [str(a) for a in argv]
-                                f.write('# command line: {0} {1}\n'.format(os.path.basename(sys.argv[0]), ' '.join(run_argv)))
-                                f.write('# input options:\n')
+
+
+                                f.write('# input options :\n')
                                 # save full command. 
                                 n_input = 0
                                 ## store params_container pathes.
@@ -256,7 +259,7 @@ def main(argv=None):
                                         if val is not None and val != 'default':
                                                 f.write('#   {0}: {1}\n'.format(argue, val))
                                                 n_input += 1
-								## store other argue setting if value is not default one.
+                                ## store other argue setting if value is not default one.
                                 default_vals = vars(parse_args([]))
                                 skip_args = ['config', 'config_option', 'workplace', 'fit_method',
                                          'readsummary', 'readpar', 'parconstrain', 'priorpath']
@@ -271,11 +274,8 @@ def main(argv=None):
                                         n_input += 1
                                 if n_input == 0:
                                         f.write('#   (all other options at default)\n')
-                                f.write('# chisq: {0}\n'.format(Myfitter.chisq))
-                                f.write('# reduced chisq: {0}\n'.format(Myfitter.chisq/Myfitter.dof))
-                                f.write('# BIC: {0}\n'.format(Myfitter.BIC))
-                                f.write('# fitting time: {0} mins\n'.format((stop-start)/60.))
-                                f.write('############# data summary ############## \n')
+
+                                f.write('\n############# data summary ############## \n')
                                 pltwave, Sedcomp, Sedlabel, z = Myfitter.cal_model_image()
                                 for image_atlas in Myfitter.GSdata.image_atlas_list:
                                         f.write('# image atals: {0}\n'.format(image_atlas.name))
@@ -283,13 +283,17 @@ def main(argv=None):
                                                 f.write('#    image number: {0}  band: {1}  chisq: {2}  dof: {3}  reduced chisq: {4}\n'.format(loop,band,image_atlas.img_residual[loop],image_atlas.img_dof[loop],image_atlas.img_residual[loop]/image_atlas.img_dof[loop]))
                                         for loop, spec in enumerate(image_atlas.spectra):
                                                 f.write('#    spectrum number: {0}  chisq: {1}  dof: {2}  reduced chisq: {3}\n'.format(loop,image_atlas.spec_residual[loop],image_atlas.spec_dof[loop],image_atlas.spec_residual[loop]/image_atlas.spec_dof[loop]))        
-                                f.write('############ fitting summary ############ \n')
+                                f.write('\n############ fitting summary ############ \n')
+                                f.write('# fiting method : {0}\n'.format(args.fit_method))
                                 if args.fit_method == "chisq":
                                         f.write('# method: {0}  scipymethod: {1} \n'.format(args.chimethod,args.scimethod))
                                 elif args.fit_method == "ES":
                                         f.write('# num_generations: {0}  popsize: {1} \n'.format(args.num_generations,args.popsize))
                                         if args.multistart:
                                                 f.write('# multistart: True  nstart: {0} NsGPU: {1}\n'.format(args.nstart,args.NsGPU))
+                                        f.write('# best fitness  : {0}\n'.format(fr['fitness']))
+                                        # fitness = ES objective = 0.5*chisq + prior penalties at the best solution.
+                                        #  the "# chisq" below is sum(r^2) without the 0.5 factor and without prior terms.
                                 elif args.fit_method == "optimizer":
                                         f.write('# num_steps: {0}  learning_rate: {1} calculate_hessian: {2} \n'.format(args.num_steps,args.learning_rate,args.cal_sigma))
                                         if args.multistart:
@@ -303,13 +307,13 @@ def main(argv=None):
                                             args.maxiters, args.nlive, args.dlogz, args.bound, args.rwalk_K, args.target_acceptance, args.device, args.queue_size))
                                         if args.dynamic:
                                                 f.write('# dynamic: True  maxbatch: {0}\n'.format(args.maxbatch))
-                                if isinstance(fr, dict) and (fr.get('fitness', None) is not None):
-                                        f.write('# best fitness: {0}\n'.format(fr['fitness']))
-                                        f.write('# (fitness = objective minimized by ES = 0.5*chisq + prior penalties at the best solution;\n')
-                                        f.write('#  the "# chisq" above is sum(r^2) without the 0.5 factor and without prior terms)\n')
+                                f.write('# chisq         : {0}\n'.format(Myfitter.chisq))
+                                f.write('# reduced chisq : {0}\n'.format(Myfitter.chisq/Myfitter.dof))
+                                f.write('# BIC           : {0}\n'.format(Myfitter.BIC))
+                                f.write('# fitting time  : {0} mins\n'.format((stop-start)/60.))
 
                                 haveerror = (isinstance(fr, dict) and (fr.get('param_errors', None) is not None))
-                                f.write('# free parameters:\n')
+                                f.write('\n# free parameters:\n')
                                 if haveerror:
                                         f.write('pname    best_value    param_errors\n')
                                         ncol = 3
@@ -328,7 +332,7 @@ def main(argv=None):
                                                 f.write('{0}    {1:.4f}    {2:.4f}\n'.format(var, val, err))
                                         else:
                                                 f.write('{0}    {1:.4f}\n'.format(var, val))
-                                f.write('# fixed parameters:\n')
+                                f.write('\n# fixed parameters:\n')
                                 f.write('# pname    fixed_value\n')
                                 for el in Myfitter.pardict.keys():
                                         if not Myfitter.lmParameters[el].vary:

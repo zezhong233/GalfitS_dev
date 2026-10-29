@@ -1,11 +1,10 @@
-# target: obj49140_image-phot
-# config file: obj49140_image-phot.lyric
-# fitting mode: images - photometry
-# fiting method: ES
-# chisq: 36689.8359375
-# reduced chisq: 1.2188504934310913
-# BIC: 37174.58984375
-# fitting time: 0.5776706218719483 mins
+# command line  : galfitS.py --config obj49140_image-phot.lyric --workplace wp_image-phot/ --fit_method ES
+# target        : obj49140_image-phot
+# config file   : obj49140_image-phot.lyric
+# fitting mode  : images - photometry
+# input options :
+#   (all other options at default)
+
 ############# data summary ############## 
 # image atals: jwst
 #    image number: 0  band: nircam_f115w  chisq: [8270.968]  dof: [7547.]  reduced chisq: [1.0959278]
@@ -15,8 +14,16 @@
 #    image number: 4  band: nircam_f356w  chisq: [5179.708]  dof: [1876.]  reduced chisq: [2.7610383]
 #    image number: 5  band: nircam_f410m  chisq: [2050.3467]  dof: [1876.]  reduced chisq: [1.0929353]
 #    image number: 6  band: nircam_f444w  chisq: [2327.251]  dof: [1876.]  reduced chisq: [1.240539]
+
 ############ fitting summary ############ 
+# fiting method : ES
 # num_generations: 20000  popsize: 10 
+# best fitness  : 18344.91796875
+# chisq         : 36689.8359375
+# reduced chisq : 1.2188504934310913
+# BIC           : 37174.58984375
+# fitting time  : 0.5882851839065552 mins
+
 # free parameters:
 pname    best_value
 csx_nircam_f150w    0.3303
@@ -66,6 +73,7 @@ AGN_nircam_f277w_logL    38.4926
 AGN_nircam_f356w_logL    39.1646
 AGN_nircam_f410m_logL    39.2615
 AGN_nircam_f444w_logL    39.3556
+
 # fixed parameters:
 # pname    fixed_value
 csx_nircam_f115w    0.0000
