@@ -254,6 +254,10 @@ class gsfitter(object):
                         self.gprior = self.gprior.at[loop].set(True)
             self.bounds = jnp.array(bounds)
             self.gbounds = jnp.array(gbounds)
+            # remember the Gaussian-prior source list so that later
+            # loose_fix_pars() calls (e.g. after --readpar/--readsummary)
+            # do not silently wipe the priors
+            self._g_prior_src = [list(gpp) for gpp in g_prior]
         else:
             self.ndim = 0
 
@@ -411,8 +415,14 @@ class gsfitter(object):
             raise ValueError('Model {0} not found'.format(name))
         return None
 
-    def loose_fix_pars(self, loose_list = [], fix_list = [], g_prior = []): # TODO: we should understand here more..., update sfh prior too.
+    def loose_fix_pars(self, loose_list = [], fix_list = [], g_prior = None): # TODO: we should understand here more..., update sfh prior too.
         # gprior: [[parname, mean, sigma],...]
+        # g_prior=None (default) keeps the priors set at construction time;
+        # pass an explicit list to override them.
+        if g_prior is None:
+            g_prior = getattr(self, '_g_prior_src', [])
+        else:
+            self._g_prior_src = [list(gpp) for gpp in g_prior]
         theta0 = []
         bounds = []
         gbounds = []
@@ -450,11 +460,11 @@ class gsfitter(object):
         transform the unit cube to the prior
         u: unit cube, [0,1] array, shape = (ndim,)
         bounds: 
-        for uniform prior (gprior = False), prior bounds, [min, max], shape = (ndim,2)
+        for uniform prior (gprior = False), prior bounds, [min, max], shapxe = (ndim,2)
         for gaussian prior (gprior = True), prior center and stddev, [cen, wid], shape = (ndim,2)
         '''
         priu = u*self.bounds[:,1]+(1.-u)*self.bounds[:,0]
-        priu = jnp.where(self.gprior,jax.scipy.stats.norm.ppf(u,self.bounds[:,0],self.bounds[:,1]),priu)
+        priu = jnp.where(self.gprior,jax.scipy.stats.norm.ppf(u,self.gbounds[:,0],jnp.abs(self.gbounds[:,1])),priu)
         return priu
 
     def Set_Update_Constraints(self, UC_func = None):
@@ -1838,6 +1848,8 @@ class gsfitter(object):
                 theta = u * self.bounds[:, 1] + (1. - u) * self.bounds[:, 0]
                 r = self.cal_residual(theta)
                 chisq = 0.5 * jnp.sum(r * r)
+                if self.use_f_cont_t_prior:
+                    chisq += self._ftp_penalty(theta)
                 return chisq
         else:
             @jax.jit
@@ -1850,6 +1862,8 @@ class gsfitter(object):
                 logpList = jnp.where(self.gprior, gps, 0.)
                 logp = -jnp.sum(logpList)
                 chisq += logp
+                if self.use_f_cont_t_prior:
+                    chisq += self._ftp_penalty(theta)
                 return chisq
         
         # Define dummy solution for algorithm initialization
@@ -2061,7 +2075,6 @@ class gsfitter(object):
                 r = self.cal_residual(theta)
                 chisq = 0.5 * jnp.sum(r*r)
                 if self.use_f_cont_t_prior:
-                    print(f"using f_cont_t_prior")
                     chisq += self._ftp_penalty(theta)
                 return chisq
 
@@ -2075,7 +2088,6 @@ class gsfitter(object):
                         loc=self.gbounds[:,0], scale=jnp.abs(self.gbounds[:,1]))
                 logp = -jnp.sum(jnp.where(self.gprior, gps, 0.))
                 if self.use_f_cont_t_prior:
-                    print(f"using f_cont_t_prior")
                     chisq += self._ftp_penalty(theta)
                 return chisq + logp
 
@@ -2378,7 +2390,10 @@ class gsfitter(object):
             def fitness_fn(u):
                 theta = u * self.bounds[:, 1] + (1. - u) * self.bounds[:, 0]
                 r = self.cal_residual(theta)
-                return 0.5 * jnp.sum(r * r)
+                chisq = 0.5 * jnp.sum(r * r)
+                if self.use_f_cont_t_prior:
+                    chisq += self._ftp_penalty(theta)
+                return chisq
         else:
             @jax.jit
             def fitness_fn(u):
@@ -2388,6 +2403,8 @@ class gsfitter(object):
                 gps = jax.scipy.stats.norm.logpdf(theta,
                         loc=self.gbounds[:,0], scale=jnp.abs(self.gbounds[:,1]))
                 logp = -jnp.sum(jnp.where(self.gprior, gps, 0.))
+                if self.use_f_cont_t_prior:
+                    chisq += self._ftp_penalty(theta)
                 return chisq + logp
         
         # Setup Sep_CMA_ES
