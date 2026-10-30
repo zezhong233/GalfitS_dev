@@ -1,6 +1,7 @@
 # command line  : galfitS.py --config obj49140_image-phot.lyric --workplace wp_image-phot/ --fit_method ES
 # target        : obj49140_image-phot
 # config file   : obj49140_image-phot.lyric
+# workplace     : wp_image-phot/
 # fitting mode  : images - photometry
 # input options :
 #   (all other options at default)
@@ -22,7 +23,7 @@
 # chisq         : 36689.8359375
 # reduced chisq : 1.2188504934310913
 # BIC           : 37174.58984375
-# fitting time  : 0.5882851839065552 mins
+# fitting time  : 0.5831867973009746 mins
 
 # free parameters:
 pname    best_value

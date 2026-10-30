@@ -244,6 +244,7 @@ def main(argv=None):
                                 f.write('# command line  : {0} {1}\n'.format(os.path.basename(sys.argv[0]), ' '.join(run_argv)))
                                 f.write('# target        : {0}\n'.format(targ))
                                 f.write('# config file   : {0}\n'.format(config_file_path))
+                                f.write("# workplace     : {0}\n".format(workplace))
                                 f.write('# fitting mode  : {0}\n'.format(Myfitter.GSdata.fitMode))
                                 if Myfitter.GSdata.fitMode == "single image - photometry":
                                         f.write('### Magnitude can be found in fixed parameters.\n')

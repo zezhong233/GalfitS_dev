@@ -1,4 +1,7 @@
 SFH_Ta1) disk
 SFH_Ta2) cosmic
 
-GP) ['disk_dust2', 'disk_dust_ratio', 'disk_dust_index']
+SFH_Tb1) obj1 
+SFH_Tb2) cosmic 
+
+GP) ["Umin_obj1", "qPAH_obj1", "gammad_obj1", "obj1_dust2", "obj1_dust_ratio", "disk_dust2", "disk_dust_ratio"]

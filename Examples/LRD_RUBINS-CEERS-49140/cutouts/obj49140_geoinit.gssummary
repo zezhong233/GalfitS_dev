@@ -1,0 +1,18 @@
+# geometry-only summary, extracted from: wp_image-phot/obj49140_image-phot.gssummary
+# content: per-profile P3-P8 (xcen ycen Re n ang axrat); AGN N4-N5
+# usage: galfitS.py <stage2.lyric> --readsummary ./obj49140_geoinit.gssummary
+pname best_value
+disk_xcen 0.0864
+disk_ycen 0.0096
+disk_Re 0.0432
+disk_n 0.4723
+disk_ang -36.8249
+disk_axrat 0.1000
+obj1_xcen 0.6806
+obj1_ycen -0.0682
+obj1_Re 1.0200
+obj1_n 4.8670
+obj1_ang -87.8909
+obj1_axrat 0.3553
+xcen_AGN -0.0348
+ycen_AGN 0.0323
