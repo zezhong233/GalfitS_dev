@@ -84,9 +84,9 @@ def prepare_galfits(lyric_path, obj_id,coord, z, cutsci_list, cutsigma_list, cut
             f.write(f"I{img_letter[b]}9) {convlist[b]} \n")  
             f.write(f"I{img_letter[b]}10) {zero_list[b]}\n")
             f.write(f"I{img_letter[b]}11) uniform\n")
-            f.write(f"I{img_letter[b]}12) [[0,-1e5,1e5,0.1,0]]\n")  # sky parameter, (value, min, max, step, fix), 0 for fix.
+            f.write(f"I{img_letter[b]}12) [[0,-1,1,0.1,0]]\n")  # sky parameter, (value, min, max, step, fix), 0 for fix.
             f.write(f"I{img_letter[b]}13) 1\n")  # allow relative shifting, 0 for False.
-            f.write(f"I{img_letter[b]}14) [[0,-5,5,0.1,1],[0,-5,5,0.1,1]] \n")
+            f.write(f"I{img_letter[b]}14) [[0,-1,1,0.1,1],[0,-1,1,0.1,1]] \n")
             f.write(f"I{img_letter[b]}15) {use_sed}\n\n")  # Use SED information
 
         f.write(f"# image atlas\n")
@@ -98,33 +98,33 @@ def prepare_galfits(lyric_path, obj_id,coord, z, cutsci_list, cutsigma_list, cut
         f.write(f"Aa6) []\n")
         f.write(f"Aa7) []\n\n")
 
-        f.write(f"Pa1) obj0 \n")
+        f.write(f"Pa1) disk \n")
         f.write(f"Pa2) sersic\n")
-        f.write(f"Pa3) [0,-0.3,0.3,0.01,1]\n") 
-        f.write(f"Pa4) [0,-0.3,0.3,0.01,1]\n")
-        f.write(f"Pa5) [{re_galfit},{0.3*pixel_scale},{cutsize_arcsec},{0.3*pixel_scale},1] \n")  # Re half-light radius [arcsec]
-        f.write(f"Pa6) [{1.5},0.2,8,0.1, 1] \n") 
-        f.write(f"Pa7) [{pa_theta},-180,180,1,1] \n")
-        f.write(f"Pa8) [{q_galfit},0.1,1,0.02,1] \n")
+        f.write(f"Pa3) [0, -0.3, 0.3, 0.05, 1]\n") 
+        f.write(f"Pa4) [0, -0.3, 0.3, 0.05, 1]\n")
+        f.write(f"Pa5) [{re_galfit}, {0.3*pixel_scale}, {cutsize_arcsec}, {0.3*pixel_scale}, 1] \n")  # Re half-light radius [arcsec]
+        f.write(f"Pa6) [2.5, 0.2, 6, 0.1, 1] \n") 
+        f.write(f"Pa7) [{pa_theta}, -180, 180, 1, 1] \n")
+        f.write(f"Pa8) [{q_galfit}, 0.1, 1, 0.02, 1] \n")
         f.write(f"Pa9)  {f_cont_write}\n")
         f.write(f"Pa10) {age_list}\n")
-        f.write(f"Pa11) [[0.004,0.001,0.04,0.001,{use_sed}]] \n")
-        f.write(f"Pa12) [[0.,0.,5.1,0.1,0]] \n")
-        f.write(f"Pa13) [0,40,200,1,0] \n")
+        f.write(f"Pa11) [[0.004, 0.0001, 0.04, 0.001, {use_sed}]] \n")
+        f.write(f"Pa12) [[0., 0., 5.1, 0.1, 0]] \n")
+        f.write(f"Pa13) [0, 40, 200, 1, 0] \n")
         f.write(f"Pa14) [{logM}, 6, 12, 0.1, {use_sed}]\n")
         f.write(f"Pa15) bins\n")
-        f.write(f"Pa16) [-1,-4,-2,0.1,0] \n")
-        f.write(f"Pa26) [0,0,5,0.1,0] \n")
-        f.write(f"Pa27) 3 \n")
-        f.write(f"Pa28) [8.14,4.5,10,0.1,0] \n")
+        f.write(f"Pa16) [-1, -4, -2, 0.1, 0] \n")
+        f.write(f"Pa26) [0, 0, 5, 0.1, 0] \n")
+        f.write(f"Pa27) 1 \n")
+        f.write(f"Pa28) [8.14, 4.5, 10, 0.1,0] \n")
         f.write(f'Pa29) [1.0, 0.1, 50, 10, 1]\n') # Umin, minimum radiation field
         f.write(f'Pa30) [2, 0.45, 7, 2, 1]\n') # qPAH, mass fraction of PAH
         f.write(f'Pa31) [1.0, 1.0, 3.0, 0.1, 0]\n') # alpha, powerlaw slope of U
         f.write(f'Pa32) [0.01, 0, 1.0, 0.1, 1]\n') # gamma, fraction illuminated by star forming region
-        f.write(f'Pa33) [[0.004,0.0001,0.04,0.001,1]]\n') 
+        f.write(f'Pa33) [[0.004, 0.0001, 0.04, 0.001, 1]]\n') 
         f.write(f'Pa34) [0.3, 0, 4, 1, 1]\n') # dust2, usuallary gaussian ~ G(0.3, 1, [0, 4])
         f.write(f'Pa35) [1, 0, 2, 0.3, 1]\n')  # dust ratio for dust1/dust2, usually ~G(1, 0.3, 0, 2)
-        f.write(f'Pa36) [0.7, -1, 0.4, 0.1, 1]\n\n') # dust index for diffuse dust uniform [-1, 0.4]
+        f.write(f'Pa36) [-0.7, -1, 0.4, 0.1, 1]\n\n') # dust index for diffuse dust uniform [-1, 0.4]
         
 
         f.write(f"Ga1) mygal \n")

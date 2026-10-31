@@ -1,0 +1,4 @@
+CUDA_VISIBLE_DEVICES={n} galfits xxx.lyric
+--workplace wp_image-sed_dynesty --fit_method jnesty --dynamic --savefull_results 
+--maxiters 5000000 --nlive 3000 --dlogz 0.001 --n_effective 1000000 --maxbatch 25 
+--readsum obj49140_sedinit.gssummary --prior obj49140_dyn.prior --baysian 
