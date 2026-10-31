@@ -409,7 +409,8 @@ def parse_config_file(filename):
             if not line:  # Skip empty lines
                 continue
             # Split into key and value
-            #print (line)
+            # print (line)
+
             key, value = line.split(')', 1)
             key = key.strip() + ')'  # add the closing bracket back to the key
             # Try to evaluate value as Python literal, else leave as string
@@ -567,7 +568,7 @@ def _generate_cosmic_sfh_prior(gal_z, age_list, logM, Cosmic_SFR_prior_path=None
         the path to cosmic sfr curve.
 
     =========================
-    Notes: this function will not be used. see galfits/templates/csfr_grid, you can directly interplate with gal_z, 
+    Notes: this function will not be used in pipeline. see galfits/templates/csfr_grid, you can directly interplate with gal_z, 
                     and logM to derive the sfr list, then multiple with age_list to get f_cont_prior -> log10() -> final results.
     '''
     if Cosmic_SFR_prior_path is None:
@@ -2907,7 +2908,5 @@ def z_to_agebin(z_fit, n_agebin=7):
     if z_fit <= 3.:
         age_bin     = [0, amin1] + np.logspace(np.log10(amin2), np.log10(tbin_max), n_agebin-2).tolist() + [t_univ] 
     else:
-        # age_bin     = [0, 0.01347] + np.logspace(np.log10(0.01347), np.log10(tbin_max), n_agebin-1).tolist()[1:] + [t_univ]
-        age_bin     = np.logspace(np.log10(amin1), np.log10(tbin_max), n_agebin).tolist() + [t_univ]
-        age_bin[0]  = 0
+        age_bin     = [0, 0.01347] + np.logspace(np.log10(0.01347), np.log10(tbin_max), n_agebin-1).tolist()[1:] + [t_univ]
     return age_bin
