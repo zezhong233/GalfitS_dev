@@ -462,9 +462,14 @@ class gsfitter(object):
         bounds: 
         for uniform prior (gprior = False), prior bounds, [min, max], shapxe = (ndim,2)
         for gaussian prior (gprior = True), prior center and stddev, [cen, wid], shape = (ndim,2)
+
+        ## NOTE: undertake the gaussian prior calculation for nesty sampling.
         '''
         priu = u*self.bounds[:,1]+(1.-u)*self.bounds[:,0]
-        priu = jnp.where(self.gprior,jax.scipy.stats.norm.ppf(u,self.gbounds[:,0],jnp.abs(self.gbounds[:,1])),priu)
+        # clip u away from exact 0/1 so that norm.ppf stays finite for
+        # Gaussian-prior parameters (ppf(0)=-inf, ppf(1)=+inf).
+        u_safe = jnp.clip(u, 1e-12, 1.-1e-12)
+        priu = jnp.where(self.gprior, jax.scipy.stats.norm.ppf(u_safe,self.gbounds[:,0],jnp.abs(self.gbounds[:,1])), priu)
         return priu
 
     def Set_Update_Constraints(self, UC_func = None):
@@ -708,89 +713,19 @@ class gsfitter(object):
             theta = theta.at[loop].set(lfparam[el].value)
         return self.cal_residual(theta)
 
-    @partial(jax.jit, static_argnames=['self'])
-    def lnprob(self, theta):
-        """
-        Compute log-posterior probability (for MCMC/nested sampling).
-        
-        Combines log-prior and log-likelihood following Bayes' theorem:
-        log P(θ|D) = log P(D|θ) + log P(θ) + const
-        
-        Parameters
-        ----------
-        theta : array_like
-            Parameter vector (free parameters only).
-        
-        Returns
-        -------
-        float
-            Log-posterior probability.
-        
-        Notes
-        -----
-        Used by dynesty nested sampling and MCMC samplers.
-        Not used by lmfit (uses chi-squared) or jaxopt (uses loss).
-        """
-        prior = self.logprior(theta)
-        return prior + self.loglike(theta)
 
     @partial(jax.jit, static_argnames=['self'])
     def loglike(self, theta):
         """
-        Compute log-likelihood from data-model residuals.
-        
-        Assumes Gaussian errors: log L = -0.5 Σ(residual²).
-        JIT-compiled for performance.
-        
-        Parameters
-        ----------
-        theta : array_like
-            Parameter vector.
-        
-        Returns
-        -------
-        float
-            Log-likelihood (negative chi-squared / 2).
+        log likelihood calculation. used in nesty sampling.
         """
         residu_flat = self.cal_residual(theta)
-        return -0.5 * jnp.sum(residu_flat * residu_flat)
+        logl = -0.5 * jnp.sum(residu_flat * residu_flat)
+        # Nested samplers treat -inf as "zero posterior probability" (jnesty converts it to a finite sentinel at live-point init), 
+        # while NaN poisons loglstar and stalls the run. 
+        # Non-finite log-likelihoods (e.g. unphysical parameters like negative dust2) must therefore return -inf, never NaN.
+        return jnp.where(jnp.isfinite(logl), logl, -jnp.inf)
 
-    def logprior(self, theta):
-        """
-        Compute log-prior probability with soft bounds and Gaussian priors.
-        
-        Combines uniform priors (with smooth boundaries) and Gaussian priors
-        for specified parameters. Uses sigmoid transitions at bounds to avoid
-        hard cutoffs that cause gradient issues.
-        
-        Parameters
-        ----------
-        theta : array_like
-            Parameter vector.
-        
-        Returns
-        -------
-        float
-            Log-prior probability.
-        
-        Notes
-        -----
-        For parameters without Gaussian priors: P(θ) = Uniform(min, max) with
-        smooth sigmoid transitions. For parameters with priors: P(θ) = N(μ, σ).
-        """
-        lower_bounds = self.bounds[:, 0]
-        upper_bounds = self.bounds[:, 1]
-        steepness = 10/(upper_bounds-lower_bounds)
-        lower_soft = soft_bound(theta, lower_bounds, steepness)
-        upper_soft = soft_bound(upper_bounds, theta, steepness)
-        in_bounds = lower_soft * upper_soft
-        # Calculate the Gaussian log probabilities
-        gps = jax.scipy.stats.norm.logpdf(theta, loc=self.gbounds[:, 0], scale=jnp.abs(self.gbounds[:, 1]))
-        # Combine the Gaussian and uniform parts
-        uniform_logp = jnp.log(in_bounds + jnp.finfo(float).eps)  # Adding epsilon for numerical stability
-        logpList = jnp.where(self.gprior, gps, uniform_logp)
-        logp = jnp.sum(logpList)
-        return logp
 
     def _ftp_penalty(self, theta):
         """
